@@ -1,7 +1,10 @@
 ## API e-commerce
 
-<h2>Tecnologias utilizadas:</h2>
-<ul>
-    <li>Express JS para desenvolver o backend</li>
-    <li>Mongo DB para banco de dados</li>
-</ul>
+Tecnologias utilizadas:
+
+* Node com Express JS - para criação do backend
+* MongoDB - para banco de dados 
+  bibliotecas:
+    - nodemon
+    - mongoose
+    - dotenv
