@@ -1,18 +1,19 @@
-require('dotenv').config();
-const express = require('express');
-const logger = require('morgan');
-const db = require('./db');
+require("dotenv").config();
+const express = require("express");
+const logger = require("morgan");
+const db = require("./db");
 const app = express();
 //router imports
-const storeRouter = require('./routes/store');
+const customerRouter = require("./routes/customers");
+const storeRouter = require("./routes/store");
 
 //database connection
 db.dbConnection();
 
 //watching logs requests
-app.use(logger('dev'));
+app.use(logger("dev"));
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //setting cors
@@ -23,9 +24,10 @@ app.use((req, res, next) => {
 	res.setHeader("Content-Type", "multipart/form-data");
 
 	next();
-})
+});
 
 //routes
+app.use(customerRouter);
 app.use(storeRouter);
 
 module.exports = app;
