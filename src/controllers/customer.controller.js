@@ -5,7 +5,6 @@ exports.createCustomer = async (req, res) => {
 	const { ...data } = req.body;
 
 	const isCustomer = await CustomerModel.findOne({ email: data.email });
-	console.log(isCustomer);
 
 	try {
 		if(isCustomer) {
@@ -37,3 +36,26 @@ exports.getCustomers = async (req, res) => {
 		res.status(httpStatusCode.BAD_REQUEST).json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
 };
+
+exports.removeCustomer = async (req, res) => {
+	const { id } = req.params;
+
+	const isCustomer = await CustomerModel.findById({ _id: id });
+	try {
+
+		if (isCustomer) {
+			const remove = await CustomerModel.deleteOne(isCustomer);
+			console.log(res.status());
+
+			res
+				.status(httpStatusCode.SUCCESS_NO_CONTENT)
+				.json({ remove, message: successStatus.REMOVED_RESOURCE.message });
+		} else {
+			res.status(httpStatusCode.NOT_FOUND).json({ message: throwNewError.RESOURCE_NOT_FOUND.message });
+		}
+	}
+	catch (error) {
+		console.log(error);
+		res.status(httpStatusCode.BAD_REQUEST).json({ error, message: throwNewError.REQUEST_FAILED.message });
+ 	}
+}
