@@ -1,5 +1,7 @@
-const app = require('./src/app')
+const app = require("./src/app");
 
-const port = process.env.PORT || 3010;
+const port = process.env.PORT;
 
-app.listen(port, () => console.log(`Server running on http://localhost:${port}`))
+app.listen(port, () =>
+	console.log(`Server running on http://localhost:${port}`)
+);
