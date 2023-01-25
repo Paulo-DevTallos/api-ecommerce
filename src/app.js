@@ -5,6 +5,7 @@ const db = require("./db");
 const app = express();
 //router imports
 const customerRouter = require("./routes/customers");
+const productRouter = require("./routes/products");
 const storeRouter = require("./routes/store");
 
 //database connection
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use(customerRouter);
+app.use(productRouter);
 app.use(storeRouter);
 
 module.exports = app;
