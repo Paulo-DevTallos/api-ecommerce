@@ -34,6 +34,6 @@ exports.getCustomers = async (req, res) => {
 	try {
 		if (customer) res.status(httpStatusCode.OK).json({ customer });
 	} catch (error) {
-		res.status(httpStatusCode.BAD_REQUEST).json({ erorr, message: throwNewError.REQUEST_FAILED.message });
+		res.status(httpStatusCode.BAD_REQUEST).json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
 };
