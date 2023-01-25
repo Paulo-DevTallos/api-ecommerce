@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
 	id_store: {
@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
 	},
 	email: {
 		type: String,
-		required: true
+		required: true,
 	},
 	telephone: {
 		type: [],
@@ -34,19 +34,19 @@ const schema = new mongoose.Schema({
 			state: {
 				type: String,
 				required: true,
-			}
+			},
 		},
 		geo: {
 			type: String,
 			coordinate: [],
-		}
+		},
 	},
 	created_at: {
 		type: Date,
 		default: Date.now,
-	}
+	},
 });
 
-const StoreModel = mongoose.model('store', schema);
+const StoreModel = mongoose.model("stores", schema);
 
 module.exports = StoreModel;

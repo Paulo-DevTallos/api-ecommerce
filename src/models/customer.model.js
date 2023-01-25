@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
 	customer_name: {
@@ -7,7 +7,7 @@ const schema = new mongoose.Schema({
 	},
 	email: {
 		type: String,
-		required: true
+		required: true,
 	},
 	password: {
 		type: String,
@@ -32,15 +32,21 @@ const schema = new mongoose.Schema({
 			},
 			city: {
 				type: String,
-			}
-		}
+			},
+		},
+	},
+	cart: {
+		products: {
+			type: mongoose.Schema.Types.Mixed,
+			default: [],
+		},
 	},
 	created_at: {
 		type: Date,
 		default: Date.now,
-	}
+	},
 });
 
-const CustomerModel = mongoose.model('customer', schema);
+const CustomerModel = mongoose.model("customers", schema);
 
 module.exports = CustomerModel;
