@@ -34,7 +34,8 @@ const schema = new mongoose.Schema({
 		required: true,
 	},
 	optional_infos: {
-		type: String,
+		type: mongoose.Schema.Types.Mixed,
+		default: [],
 	},
 	price: {
 		type: mongoose.Types.Decimal128(Number),
