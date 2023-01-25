@@ -2,7 +2,7 @@ module.exports = {
 	httpStatusCode: {
 		OK: 200,
 		CREATED: 201,
-		SUCCES_NO_CONTENT: 204,
+		SUCCESS_NO_CONTENT: 204,
 		BAD_REQUEST: 400,
 		UNAUTHORIZED: 401,
 		FORBIDEN: 403,
