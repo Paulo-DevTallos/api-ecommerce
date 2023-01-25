@@ -1,4 +1,4 @@
-const { httpStatusCode, throwNewError } = require("../../config/error-tratament");
+const { httpStatusCode, throwNewError, successStatus } = require("../../config/error-tratament");
 const CustomerModel = require("../models/customer.model");
 
 exports.createCustomer = async (req, res) => {
@@ -15,13 +15,25 @@ exports.createCustomer = async (req, res) => {
 				...data,
 			});
 
-			res.status(201).json({ customer, message: "cliente cadastrado com sucesso" });
+			res.status(httpStatusCode.OK).json({ customer, message: successStatus.CREATED.message });
 		}
 	} catch (error) {
-		res.status(400).json({ error, message: 'não foi possível criar o cliente' })
+		res.status(httpStatusCode.BAD_REQUEST).json({ error, message: throwNewError.BAD_REQUEST.message });
 	}
 };
 
 exports.getCustomers = async (req, res) => {
+	const { id } = req.params;
+	// verificar implementação por query params
+	const customerId = id ? { _id: id } : null;
 
-}
+	const customer = await CustomerModel.find(customerId)
+		.hint("email_1")
+		.sort({ created_at: 1 });
+
+	try {
+		if (customer) res.status(httpStatusCode.OK).json({ customer });
+	} catch (error) {
+		res.status(httpStatusCode.BAD_REQUEST).json({ erorr, message: throwNewError.REQUEST_FAILED.message });
+	}
+};
