@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-export class Encript {
+class Encript {
 	static async CriptoPassword(pass) {
 		const salt = await bcrypt.genSalt();
 		return await bcrypt.hash(pass, salt);
@@ -9,4 +9,8 @@ export class Encript {
 	static async ComparePassword(pass, customerPass) {
 		return bcrypt.compare(pass, customerPass);
 	}
+}
+
+module.exports = {
+	Encript,
 }

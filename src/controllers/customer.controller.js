@@ -1,4 +1,5 @@
 const { httpStatusCode, throwNewError, successStatus } = require("../../config/error-tratament");
+const { Encript } = require("../helpers/cripto");
 const CustomerModel = require("../models/customer.model");
 
 exports.createCustomer = async (req, res) => {
@@ -10,8 +11,10 @@ exports.createCustomer = async (req, res) => {
 		if(isCustomer) {
 			res.status(httpStatusCode.CONFLICT).json({ message: throwNewError.EXISTANT_REGISTER.message });
 		} else {
+			const hashingPass = await Encript.CriptoPassword(data.password);
 			const customer = await CustomerModel.create({
 				...data,
+				password: data.password = hashingPass,
 			});
 
 			res.status(httpStatusCode.OK).json({ customer, message: successStatus.CREATED.message });
