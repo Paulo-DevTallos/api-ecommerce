@@ -1,0 +1,44 @@
+const mongoose = require('mongoose');
+
+const schema = new mongoose.Schema({
+	id_product: {
+		type: Number,
+		required: true,
+	},
+	model: {
+		type: String,
+		required: true,
+	},
+	brand: {
+		type: String,
+		required: true
+	},
+	description: {
+		type: String,
+		required: true,
+	},
+	sistem: {
+		type: String,
+		required: true,
+	},
+	memory: {
+		type: String,
+		required: true,
+	},
+	product_referencie: {
+		type: String,
+		required: true,
+	},
+	price: {
+		type: mongoose.Types.Decimal128(Number),
+		required: true,
+	},
+	created_at: {
+		type: Date,
+		default: Date.now,
+	}
+});
+
+const ProductModel = mongoose.model('product', schema);
+
+module.exports = ProductModel;
