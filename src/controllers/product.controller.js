@@ -5,17 +5,13 @@ const {
 } = require("../../config/error-tratament");
 const ProductModel = require("../models/product.model");
 
-exports.createProduct = async () => {
+exports.createProduct = async (req, res) => {
 	const { ...data } = req.body;
 
-	const isProduct = await ProductModel.findOne({ idProduct: data.id_product });
+	const isProduct = await ProductModel.findOne({ id_product: data.id_product });
 
 	try {
-		if (isProduct) {
-			res
-				.status(httpStatusCode.CONFLICT)
-				.json({ message: throwNewError.EXISTANT_REGISTER.message });
-		} else {
+		if (!isProduct) {
 			const product = await ProductModel.create({
 				...data,
 			});
@@ -23,6 +19,10 @@ exports.createProduct = async () => {
 			res
 				.status(httpStatusCode.CREATED)
 				.json({ product, message: successStatus.CREATED.message });
+		} else {
+			res
+				.status(httpStatusCode.CONFLICT)
+				.json({ message: throwNewError.EXISTANT_REGISTER.message });
 		}
 	} catch (error) {
 		res
