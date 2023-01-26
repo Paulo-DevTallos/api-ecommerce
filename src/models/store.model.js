@@ -38,8 +38,12 @@ const schema = new mongoose.Schema({
 			},
 		},
 		geo: {
-			type: Array,
-			coordinate: [],
+			type: {
+				type: String,
+				enum: ['Point'],
+				index: '2dsphere'
+			},
+			coordinates: [],
 		},
 	},
 	created_at: {
