@@ -49,6 +49,10 @@ module.exports = {
 		},
 	},
 	successStatus: {
+		SUCCESS_OPERATION: {
+			code: 200,
+			message: "Operação realizada com sucesso!",
+		},
 		FREE_ACCESS: {
 			code: 200,
 			message: "Acesso liberado",
