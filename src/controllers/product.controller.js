@@ -60,3 +60,16 @@ exports.getProducts = async (req, res) => {
  *  )
  *
  */
+
+// para alimentar o carrinho é necessario realizar uma busca e fazer uma atualizacao:
+// para decrementar pode utilizar o $inc passando um negativo para o campo
+// db.products.findOneAndUpdate({
+//   model: "Iphone 13",
+//   quantity: {
+//     $gt: 0
+//   }
+// }, {
+//   $inc: {
+//     quantity: -1
+//   }
+// })

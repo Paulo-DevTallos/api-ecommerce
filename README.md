@@ -11,4 +11,7 @@ Tecnologias utilizadas:
 
 ## Modelagem de dados
 
-col products
+cliente se relaciona com um produto para isso é preciso um carrinho
+col products <=== col carrinho <=== col customers
+
+1 cliente = 1 carrinho / 1 carrinho = 1 carrinho
