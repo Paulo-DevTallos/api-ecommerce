@@ -1,6 +1,7 @@
 const router = require("./index");
-const { getProducts } = require("../controllers/product.controller");
+const { getProducts, createProduct } = require("../controllers/product.controller");
 
 router.get("/products/:id?", getProducts);
+router.post('/product/create', createProduct);
 
 module.exports = router;
