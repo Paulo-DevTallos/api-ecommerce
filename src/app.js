@@ -4,6 +4,7 @@ const logger = require("morgan");
 const db = require("./db");
 const app = express();
 //router imports
+const categoriesRouter = require('./routes/categories');
 const customerRouter = require("./routes/customers");
 const productRouter = require("./routes/products");
 const storeRouter = require("./routes/store");
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
 });
 
 //routes
+app.use(categoriesRouter);
 app.use(customerRouter);
 app.use(productRouter);
 app.use(storeRouter);
