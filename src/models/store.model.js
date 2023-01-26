@@ -4,8 +4,9 @@ const schema = new mongoose.Schema({
 	id_store: {
 		type: Number,
 		required: true,
+		index: true,
 	},
-	name: {
+	store_name: {
 		type: String,
 		required: true,
 	},
@@ -37,7 +38,7 @@ const schema = new mongoose.Schema({
 			},
 		},
 		geo: {
-			type: String,
+			type: Array,
 			coordinate: [],
 		},
 	},
