@@ -27,7 +27,7 @@ exports.createProduct = async (req, res) => {
 	} catch (error) {
 		res
 			.status(httpStatusCode.BAD_REQUEST)
-			.json({ error, message: throwNewError.BAD_REQUEST.message });
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
 };
 
