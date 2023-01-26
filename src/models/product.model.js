@@ -4,6 +4,7 @@ const schema = new mongoose.Schema({
 	id_product: {
 		type: Number,
 		required: true,
+		index: true,
 	},
 	model: {
 		type: String,
@@ -31,14 +32,13 @@ const schema = new mongoose.Schema({
 	},
 	quantity: {
 		type: Number,
-		required: true,
 	},
 	optional_infos: {
 		type: mongoose.Schema.Types.Mixed,
 		default: [],
 	},
 	price: {
-		type: mongoose.Types.Decimal128(Number),
+		type: mongoose.Schema.Types.Decimal128,
 		required: true,
 	},
 	created_at: {
