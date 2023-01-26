@@ -28,7 +28,6 @@ const schema = new mongoose.Schema({
 	},
 	product_referencie: {
 		type: String,
-		required: true,
 	},
 	quantity: {
 		type: Number,
@@ -39,6 +38,11 @@ const schema = new mongoose.Schema({
 	},
 	price: {
 		type: mongoose.Schema.Types.Decimal128,
+		required: true,
+	},
+	category: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'categories',
 		required: true,
 	},
 	created_at: {
