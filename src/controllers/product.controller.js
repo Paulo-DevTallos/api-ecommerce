@@ -49,6 +49,33 @@ exports.getProducts = async (req, res) => {
 	}
 };
 
+exports.getProductByQueryParam = async (req, res) => {
+	const { code, name, brand } = req.query;
+
+	try {
+		const productQuery = await ProductModel.find({
+			$or: [
+				{
+					'id_product': { $in: code }
+				},
+				{
+					'model': { $in: name }
+				},
+				{
+					'brand': { $in: brand }
+				}
+			]
+		});
+
+		res.status(httpStatusCode.OK).json(productQuery);
+
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
+	}
+}
+
 /**
  *
  *  Ver regra de negocio a qual isso ser'a necessario
