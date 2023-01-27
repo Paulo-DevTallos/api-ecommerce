@@ -89,8 +89,6 @@ exports.updateStore = async (req, res) => {
 	const { id } = req.params;
 	const { ...data } = req.body;
 
-	console.log(data)
-
 	const isStore = await StoreModel.findById({ _id: id });
 
 	try {
