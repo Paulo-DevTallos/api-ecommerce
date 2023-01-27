@@ -40,10 +40,12 @@ const schema = new mongoose.Schema({
 		geo: {
 			type: {
 				type: String,
-				enum: ['Point'],
+				enum: ["Point"],
+			},
+			coordinates: {
+				type: [Number],
 				index: '2dsphere'
 			},
-			coordinates: [],
 		},
 	},
 	created_at: {
