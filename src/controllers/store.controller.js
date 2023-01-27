@@ -21,6 +21,7 @@ exports.createStore = async (req, res) => {
 				.json({ message: throwNewError.EXISTANT_REGISTER.message });
 		}
 	} catch (error) {
+		console.log(error)
 		res
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ error, message: throwNewError.REQUEST_FAILED.message });
@@ -39,6 +40,47 @@ exports.getStores = async (req, res) => {
 	try {
 		if (store) res.status(httpStatusCode.OK).json(store);
 	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ message: throwNewError.REQUEST_FAILED.message });
+	}
+}
+
+exports.getStoresByLocation = async (req, res) => {
+	const { ...data } = req.body;
+
+	const coordinates = {
+		lat: data.location.geo.coordinates[0],
+		lng: data.location.geo.coordinates[1],
+	}
+
+	//criar regra para setar um raio dinamicamente
+	//trabalhar metodos de atualizacao por mongo query
+	const distances = {
+		max: 300000,
+		min: 0
+	}
+
+	try {
+		const findByLocation = await StoreModel.aggregate([
+			{
+				$geoNear: {
+					near: { type: 'Point', coordinates: [coordinates.lat, coordinates.lng] },
+					distanceField: 'Distance',
+					maxDistance: distances.max,
+					maxDistance: distances.min,
+					spherical: true
+				}
+			}
+		])
+
+		console.log(findByLocation);
+		res
+			.status(httpStatusCode.OK)
+			.json({ findByLocation, message: successStatus.SUCCESS_OPERATION.message });
+
+	} catch (error) {
+		console.log(error);
 		res
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ message: throwNewError.REQUEST_FAILED.message });
