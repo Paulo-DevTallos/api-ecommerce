@@ -73,3 +73,22 @@ exports.getProducts = async (req, res) => {
 //     quantity: -1
 //   }
 // })
+
+exports.removeProduct = async (req, res) => {
+	const { id} = req.params;
+
+	const isProduct = await ProductModel.findById({ _id: id });
+	try {
+		if (isProduct) {
+			const remove = await ProductModel.deleteOne(isProduct);
+
+			res
+				.status(httpStatusCode.SUCCESS_NO_CONTENT)
+				.json({ remove, message: successStatus.REMOVED_RESOURCE.message });
+		}
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
+	}
+}
