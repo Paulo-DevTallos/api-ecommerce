@@ -3,13 +3,15 @@ const {
 	createStore,
 	getStores,
 	getStoresByLocation,
-	removeStore
+	removeStore,
+	updateStore
 } = require('../controllers/store.controller');
 
 router.post('/store/create', createStore);
 router.get('/stores/:id?', getStores);
 router.post('/stores/geolocation', getStoresByLocation);
-router.delete('/store/:id', removeStore);
+router.patch('/store/update/:id', updateStore);
+router.delete('/store/remove/:id', removeStore);
 
 module.exports = router;
 

@@ -85,6 +85,39 @@ exports.getStoresByLocation = async (req, res) => {
 	}
 }
 
+exports.updateStore = async (req, res) => {
+	const { id } = req.params;
+	const { ...data } = req.body;
+
+	console.log(data)
+
+	const isStore = await StoreModel.findById({ _id: id });
+
+	try {
+		if (isStore) {
+			const updateStore = await StoreModel.findByIdAndUpdate(
+				{ _id: id },
+				{
+					$set: data,
+				},
+				{ new: true },
+			);
+
+			res
+				.status(httpStatusCode.SUCCESS_NO_CONTENT)
+				.json({ updateStore, message: successStatus.UPDATED_RESOURCE.message });
+		} else {
+			res
+				.status(httpStatusCode.NOT_FOUND)
+				.json({ message: throwNewError.RESOURCE_NOT_FOUND.message });
+		}
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
+	}
+}
+
 exports.removeStore = async (req, res) => {
 	const { id } = req.params;
 
