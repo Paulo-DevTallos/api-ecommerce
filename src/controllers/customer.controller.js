@@ -52,6 +52,32 @@ exports.getCustomers = async (req, res) => {
 	}
 };
 
+exports.getCustomerByQueryParam = async (req, res) => {
+	const { email, name } = req.query;
+
+	const queryValue = [email, name];
+
+	try {
+		const customerQuery = await CustomerModel.find({
+			$or: [
+				{
+					'email': { $in: queryValue[0] }
+				},
+				{
+					'customer_name': { $in: queryValue[1] }
+				}
+			]
+		});
+
+		res.status(httpStatusCode.OK).json(customerQuery);
+
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
+	}
+}
+
 /**
  *
  * metodo de criacao de carrinho dentro da collection de customer
