@@ -74,15 +74,36 @@ exports.getStoresByLocation = async (req, res) => {
 			}
 		])
 
-		console.log(findByLocation);
 		res
 			.status(httpStatusCode.OK)
 			.json({ findByLocation, message: successStatus.SUCCESS_OPERATION.message });
 
 	} catch (error) {
-		console.log(error);
 		res
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ message: throwNewError.REQUEST_FAILED.message });
+	}
+}
+
+exports.removeStore = async (req, res) => {
+	const { id } = req.params;
+
+	const isStore = await StoreModel.findById({ _id: id });
+	try {
+		if (isStore) {
+			const remove = await StoreModel.deleteOne(isStore);
+
+			res
+				.status(httpStatusCode.SUCCESS_NO_CONTENT)
+				.json({ remove, message: successStatus.REMOVED_RESOURCE.message });
+		} else {
+			res
+				.status(httpStatusCode.NOT_FOUND)
+				.json({ message: throwNewError.RESOURCE_NOT_FOUND.message });
+		}
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
 }
