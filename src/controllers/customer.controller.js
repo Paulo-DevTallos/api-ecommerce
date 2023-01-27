@@ -73,7 +73,6 @@ exports.removeCustomer = async (req, res) => {
 	try {
 		if (isCustomer) {
 			const remove = await CustomerModel.deleteOne(isCustomer);
-			console.log(res.status());
 
 			res
 				.status(httpStatusCode.SUCCESS_NO_CONTENT)
@@ -84,7 +83,6 @@ exports.removeCustomer = async (req, res) => {
 				.json({ message: throwNewError.RESOURCE_NOT_FOUND.message });
 		}
 	} catch (error) {
-		console.log(error);
 		res
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ error, message: throwNewError.REQUEST_FAILED.message });
