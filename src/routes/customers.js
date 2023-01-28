@@ -9,7 +9,7 @@ const {
 
 router.post("/customer/create", createCustomer);
 router.get("/customer/search", getCustomerByQueryParam);
-router.patch('/customer/:id/addcart/:id', addProductToCart);
+router.patch('/customer/:customer_id/addcart/:product_id', addProductToCart);
 router.get("/customer/:id?", getCustomers);
 router.delete("/customer/:id", removeCustomer);
 

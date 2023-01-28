@@ -81,12 +81,12 @@ exports.getCustomerByQueryParam = async (req, res) => {
 }
 
 exports.addProductToCart = async (req, res) => {
-	const { id } = req.params;
+	const { customer_id, product_id } = req.params;
 
 	try {
 		const replaceProductToCustomerCart = await ProductModel.findOneAndUpdate(
 			{
-				_id: id,
+				_id: ObjectId(product_id),
 				quantity: { $gt: 0 }
 			},
 			{
@@ -103,7 +103,7 @@ exports.addProductToCart = async (req, res) => {
 		)
 
 		const addProductToCustomerCart = await CustomerModel.findOneAndUpdate(
-			{ customer_name: "Haliane Ferriera Pessoa Nascimento" },
+			{ _id: ObjectId(customer_id) },
 			{
 				$push: {
 					'cart.products': replaceProductToCustomerCart,
@@ -111,8 +111,6 @@ exports.addProductToCart = async (req, res) => {
 			}
 		)
 
-		console.log(req.params, 'id do customer')
-		console.log(addProductToCustomerCart, replaceProductToCustomerCart)
 		res
 			.status(httpStatusCode.SUCCESS_NO_CONTENT)
 			.json({ addProductToCustomerCart, message: successStatus.UPDATED_RESOURCE.message });
