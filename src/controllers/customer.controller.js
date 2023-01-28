@@ -5,6 +5,8 @@ const {
 } = require("../../config/error-tratament");
 const { Encript } = require("../helpers/cripto");
 const CustomerModel = require("../models/customer.model");
+const ProductModel = require("../models/product.model");
+const { ObjectId } = require('mongoose').Types;
 
 exports.createCustomer = async (req, res) => {
 	const { ...data } = req.body;
@@ -78,19 +80,49 @@ exports.getCustomerByQueryParam = async (req, res) => {
 	}
 }
 
-/**
- *
- * metodo de criacao de carrinho dentro da collection de customer
- * db.customers.updateOne({},
- * {
- * $set: {
- *   cart: {
- *      products: []
- *    }
- *  }
- * })
- *
- **/
+exports.addProductToCart = async (req, res) => {
+	const { id } = req.params;
+
+	try {
+		const replaceProductToCustomerCart = await ProductModel.findOneAndUpdate(
+			{
+				_id: id,
+				quantity: { $gt: 0 }
+			},
+			{
+				$inc: { quantity: -1 }
+			},
+			{
+				projection: {
+					model: 1,
+					brand: 1,
+					description: 1,
+					price: 1,
+				}
+			}
+		)
+
+		const addProductToCustomerCart = await CustomerModel.findOneAndUpdate(
+			{ customer_name: "Haliane Ferriera Pessoa Nascimento" },
+			{
+				$push: {
+					'cart.products': replaceProductToCustomerCart,
+				}
+			}
+		)
+
+		console.log(req.params, 'id do customer')
+		console.log(addProductToCustomerCart, replaceProductToCustomerCart)
+		res
+			.status(httpStatusCode.SUCCESS_NO_CONTENT)
+			.json({ addProductToCustomerCart, message: successStatus.UPDATED_RESOURCE.message });
+	} catch (error) {
+		console.log(error)
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
+	}
+}
 
 exports.removeCustomer = async (req, res) => {
 	const { id } = req.params;
