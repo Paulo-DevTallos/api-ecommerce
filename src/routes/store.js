@@ -4,10 +4,12 @@ const {
 	getStores,
 	getStoresByLocation,
 	removeStore,
-	updateStore
+	updateStore,
+	filterProductsByStore
 } = require('../controllers/store.controller');
 
 router.post('/store/create', createStore);
+router.post('/store/products', filterProductsByStore);
 router.get('/stores/:id?', getStores);
 router.post('/stores/geolocation', getStoresByLocation);
 router.patch('/store/update/:id', updateStore);
