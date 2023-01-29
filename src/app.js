@@ -6,6 +6,7 @@ const app = express();
 //router imports
 const categoriesRouter = require('./routes/categories');
 const customerRouter = require("./routes/customers");
+const ordersRouter = require('./routes/orders');
 const productRouter = require("./routes/products");
 const storeRouter = require("./routes/store");
 
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 //routes
 app.use(categoriesRouter);
 app.use(customerRouter);
+app.use(ordersRouter);
 app.use(productRouter);
 app.use(storeRouter);
 
