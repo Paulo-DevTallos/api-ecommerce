@@ -12,7 +12,7 @@ exports.createOrder = async (req, res) => {
 		{
 			$project: {
 				customer_id: "$_id",
-				delivery_address: "$purchase_requirements",
+				delivery_address: "$purchase_requirements", //ver abordagem para utilizar current address
 				date: Date(),
 				products: "$cart.products",
 				total_value: {
