@@ -76,6 +76,30 @@ exports.getProductByQueryParam = async (req, res) => {
 	}
 }
 
+exports.filterStoreByProducts = async (req, res) => {
+	const { ...data } = req.body
+
+	const filterStore = await ProductModel.aggregate([
+		{
+			$match: {
+				model: "Iphone 13",
+			}
+		},
+		{
+			$lookup: {
+				from: "stores",
+				localField: "sales_at",
+				foreignField: "_id",
+				as: "stores"
+			}
+		}
+	])
+
+
+	console.log(filterStore)
+	res.json(filterStore)
+}
+
 /**
  *
  *  Ver regra de negocio a qual isso ser'a necessario
