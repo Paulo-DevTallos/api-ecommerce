@@ -42,6 +42,11 @@ const schema = new mongoose.Schema({
 			default: [],
 		},
 	},
+	orders: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'orders',
+		default: []
+	},
 	created_at: {
 		type: Date,
 		default: Date.now,

@@ -1,0 +1,47 @@
+use('e-commerce')
+
+db.products.findOneAndUpdate(
+  {
+    model: "Iphone 13",
+    quantity: { $gt: 0 }
+  },
+  {
+    $inc: { quantity: -1 }
+  },
+)
+
+
+/*
+
+comnado para inserir varios itens no carrinho ao mesmo tempo
+
+const replaceProductToCustomerCart = await ProductModel.findOneAndUpdate(
+			{
+				_id: ObjectId(product_id),
+				quantity: { $gt: 0 }
+			},
+			{
+				$inc: { quantity: -1 }
+			},
+			{
+				projection: {
+					model: 1,
+					brand: 1,
+					description: 1,
+					price: 1,
+				}
+			}
+		)
+
+		const addProductToCustomerCart = await CustomerModel.findOneAndUpdate(
+			{ _id: ObjectId(customer_id) },
+			{
+				$push: {
+					'cart.products': {
+						$each: [replaceProductToCustomerCart, ...outrValor]
+					}
+				}
+			}
+		)
+
+*/

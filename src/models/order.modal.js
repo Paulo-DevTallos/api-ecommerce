@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
 		default: [],
 	},
 	purchase_total: {
-		type: mongoose.Types.Decimal128(Number),
+		type: mongoose.Schema.Types.Decimal128,
 		required: true,
 	},
 	delivery_address: {
@@ -34,6 +34,10 @@ const schema = new mongoose.Schema({
 		observations: {
 			type: String,
 		},
+		customer_address: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'customers',
+		}
 	},
 	cart: {
 		products: {
