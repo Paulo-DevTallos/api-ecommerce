@@ -15,3 +15,7 @@ cliente se relaciona com um produto para isso é preciso um carrinho
 col products <=== col carrinho <=== col customers
 
 1 cliente = 1 carrinho / 1 carrinho = 1 carrinho == relacionamento 1 para 1
+varios produtos = muitos carrinhos == relacionamento muitos para muitos
+
+ver relação cliente => pedido
+um cliente para muitos pedidos => um para muitos
