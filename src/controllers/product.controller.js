@@ -50,6 +50,54 @@ exports.getProducts = async (req, res) => {
 	}
 };
 
+exports.getPaginatedProducts = async (req, res) => {
+	const { page, limit } = req.query;
+
+	/*const ordenade = [sort = 1]
+	const unordenade = [sort = -1]*/
+	/*$or: [
+					{
+						created_at: -1
+					},
+					{
+						created_at: 1,
+					},
+					{
+						model: 1
+					},
+					{
+						price: 1
+					},
+					{
+						price: -1
+					}
+				]
+			})*/
+
+	try {
+		const products = await ProductModel.find()
+			.hint("id_product_1")
+			.limit(limit * 1)
+			.skip((page - 1) * limit)
+			.sort({ created_at: 1 });
+
+		const count = await ProductModel.countDocuments()
+
+		res
+			.status(httpStatusCode.OK)
+			.json({
+				products,
+				count,
+				totalPages: Math.ceil(count / limit),
+				currentPage: page,
+			});
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
+	}
+}
+
 exports.getProductByQueryParam = async (req, res) => {
 	const { code, name, brand } = req.query;
 
