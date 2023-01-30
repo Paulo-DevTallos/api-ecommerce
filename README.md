@@ -19,3 +19,8 @@ varios produtos = muitos carrinhos == relacionamento muitos para muitos
 
 ver relação cliente => pedido
 um cliente para muitos pedidos => um para muitos
+
+
+Observações para criação da inteface de vendas:
+* ver como cadastrar um produto atribuido a uma loja especifica e dizer que determinada loja vende aquele produto.
+* a nível da API é possível fazer essa implementação a partir do cadastro do produto.

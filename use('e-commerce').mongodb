@@ -1,6 +1,6 @@
 use('e-commerce')
 
-db.products.findOneAndUpdate(
+/*db.products.findOneAndUpdate(
   {
     model: "Iphone 13",
     quantity: { $gt: 0 }
@@ -9,7 +9,7 @@ db.products.findOneAndUpdate(
     $inc: { quantity: -1 }
   },
 )
-
+*/
 
 /*
 
@@ -45,3 +45,52 @@ const replaceProductToCustomerCart = await ProductModel.findOneAndUpdate(
 		)
 
 */
+/* atualizando produtos vinculando as lojas
+db.products.findOneAndUpdate(
+	{ id_product: 1 },
+	{
+		$set: {
+			sales_at: ['63d318005dd8ac99f221d672', '63d31ae91a87c6a64192b823']
+		}
+	}
+)
+*/
+
+//atualizando loja vinculando ao produto
+/*db.stores.findOneAndUpdate(
+	{ id_store: 1 },
+	{
+		$set: {
+			products: ['63d2a9a3623655daf3dc333c', '63d2aae1893c98334cf82dd4']
+		}
+	}
+)
+*/
+
+
+//realizando lookup para procurar lista de produto dentro de lojas
+/*db.stores.aggregate([
+	{
+		$match: {
+			store_name: "Ibyte - North Shopping Fortaleza",
+		}
+	},
+	{
+		$lookup: {
+			from: "products",
+			localField: "products",
+			foreignField: "_id",
+			as: "listProducts"
+		}
+	}
+])
+*/
+
+/*
+removendo campo de products da collection de lojas
+db.stores.updateMany(
+	{},
+	{
+		$unset: { products: 1 }
+	}
+)*/
