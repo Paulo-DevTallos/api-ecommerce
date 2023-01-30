@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
 	},
 	roles: {
 		type: String,
-		//required: true
+		required: true
 	},
 	created_at: {
 		type: Date,
