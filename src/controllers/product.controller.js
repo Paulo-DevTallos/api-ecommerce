@@ -95,6 +95,37 @@ exports.filterProductsByStore = async (req, res) => {
 	}
 }
 
+exports.updateProduct = async (req, res) => {
+	const { id } = req.params;
+	const { ...data } = req.body;
+
+	const isProduct = await ProductModel.findById({ _id: id });
+
+	try {
+		if (isProduct) {
+			await ProductModel.updateOne(
+				{ _id: isProduct._id },
+				{
+					$set: data,
+				},
+				{ new: true }
+			);
+
+			res
+				.status(httpStatusCode.SUCCESS_NO_CONTENT)
+				.json({ message: successStatus.UPDATED_RESOURCE.message });
+		} else {
+			res
+				.status(httpStatusCode.NOT_FOUND)
+				.json({ message: throwNewError.RESOURCE_NOT_FOUND.message });
+		}
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
+	}
+}
+
 /**
  *
  *  Ver regra de negocio a qual isso ser'a necessario
