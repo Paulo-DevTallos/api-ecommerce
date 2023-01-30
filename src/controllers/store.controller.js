@@ -3,6 +3,7 @@ const {
 	successStatus,
 	throwNewError
 } = require('../../config/error-tratament');
+const ProductModel = require('../models/product.model');
 const StoreModel = require('../models/store.model');
 
 exports.createStore = async (req, res) => {
@@ -89,26 +90,36 @@ exports.getStoresByLocation = async (req, res) => {
 	}
 }
 
-exports.filterProductsByStore = async (req, res) => {
-	const filterProducts = await StoreModel.aggregate([
-		{
-			$match: {
-				store_name: "Ibyte - North Shopping Fortaleza",
-			}
-		},
-		{
-			$lookup: {
-				from: "products",
-				localField: "products",
-				foreignField: "_id",
-				as: "products_docs"
-			}
-		}
-	])
+exports.filterStoreByProducts = async (req, res) => {
+	const { product_id } = req.params;
 
+	const product = await ProductModel.find({ _id: product_id });
 
-	console.log(filterProducts)
-	res.json(filterProducts)
+	try {
+		product.forEach(async field => {
+			const filteredStore = await ProductModel.aggregate([
+				{
+					$match: {
+						model: field.model,
+					}
+				},
+				{
+					$lookup: {
+						from: "stores",
+						localField: "sales_at",
+						foreignField: "_id",
+						as: "stores_docs"
+					}
+				}
+			])
+
+			res.status(httpStatusCode.OK).json(filteredStore)
+		})
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ message: throwNewError.REQUEST_FAILED.message });
+	}
 }
 
 exports.updateStore = async (req, res) => {
