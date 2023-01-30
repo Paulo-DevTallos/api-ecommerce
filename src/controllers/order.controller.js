@@ -3,6 +3,7 @@ const OrderModel = require('../models/order.modal');
 
 
 exports.createOrder = async (req, res) => {
+	// passar id do customer para tratar na questão do carrinho
 	const newOrder = await CustomerModel.aggregate([
 		{
 			$match: {
@@ -13,9 +14,9 @@ exports.createOrder = async (req, res) => {
 			$project: {
 				customer_id: "$_id",
 				delivery_address: "$purchase_requirements", //ver abordagem para utilizar current address
-				date: Date(),
+				creted_at: Date(),
 				products: "$cart.products",
-				total_value: {
+				purchase_total: {
 					$sum: "$cart.products.price"
 				}
 			}
