@@ -9,6 +9,7 @@ const customerRouter = require("./routes/customers");
 const employeeRouter = require('./routes/employee');
 const ordersRouter = require('./routes/orders');
 const productRouter = require("./routes/products");
+const sessionRouter = require("./routes/session");
 const storeRouter = require("./routes/store");
 
 //database connection
@@ -36,6 +37,7 @@ app.use(customerRouter);
 app.use(employeeRouter);
 app.use(ordersRouter);
 app.use(productRouter);
+app.use(sessionRouter);
 app.use(storeRouter);
 
 module.exports = app;
