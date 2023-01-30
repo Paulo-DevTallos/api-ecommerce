@@ -4,6 +4,7 @@ const {
 	successStatus,
 } = require("../../config/error-tratament");
 const ProductModel = require("../models/product.model");
+const StoreModel = require("../models/store.model");
 
 exports.createProduct = async (req, res) => {
 	const { ...data } = req.body;
@@ -76,28 +77,22 @@ exports.getProductByQueryParam = async (req, res) => {
 	}
 }
 
-exports.filterStoreByProducts = async (req, res) => {
-	const { ...data } = req.body
+exports.filterProductsByStore = async (req, res) => {
+	const { id } = req.params;
 
-	const filterStore = await ProductModel.aggregate([
-		{
-			$match: {
-				model: "Iphone 13",
-			}
-		},
-		{
-			$lookup: {
-				from: "stores",
-				localField: "sales_at",
-				foreignField: "_id",
-				as: "stores"
-			}
-		}
-	])
+	try {
+		const filterStore = await StoreModel.findOne({ _id: id });
 
+		const productList = await ProductModel.find(
+			{ sales_at: filterStore },
+		);
 
-	console.log(filterStore)
-	res.json(filterStore)
+		res.status(httpStatusCode.OK).json(productList)
+	} catch (error) {
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
+	}
 }
 
 /**
