@@ -34,6 +34,44 @@ module.exports = {
 			code: 409,
 			message: "E-mail já cadastrado!",
 		},
+		//forms field
+		EMPTY_FIELD_NAME: {
+			code: 400,
+			message: "Campo de Nome está vazio!",
+		},
+		ANY_ENTITY_EMPTY: {
+			code: 401,
+			message: "Preencha os campos corretamente",
+		},
+		EMPTY_FIELD_EMAIL: {
+			code: 400,
+			message: "Campo de e-mail está vazio!",
+		},
+		EMPTY_FIELD_PASSWORD: {
+			code: 400,
+			message: "Campo de senha está vazio!",
+		},
+		//form login field
+		EMPTY_FIELD_EMAIL_LOGIN: {
+			code: 401,
+			message: "Campo de e-mail vazio",
+		},
+		EMPTY_FIELD_PASSWORD_LOGIN: {
+			code: 401,
+			message: "Campo de senha vazio",
+		},
+		ENTITY_FIELDS_EMPTY: {
+			code: 401,
+			message: "Nenhum dado identificado",
+		},
+		ENTITY_NOT_FOUND: {
+			code: 422,
+			message: "Usuário não encontrado",
+		},
+		INVALID_PASSWORD: {
+			code: 401,
+			message: "Dados incorretos",
+		},
 		//server error
 		SEVERAL_INTERAL_SERVER_ERROR: {
 			code: 500,
