@@ -1,3 +1,8 @@
+const {
+	httpStatusCode,
+	successStatus,
+	throwNewError
+} = require('../../config/error-tratament');
 const CustomerModel = require('../models/customer.model');
 const OrderModel = require('../models/order.modal');
 
@@ -40,12 +45,16 @@ exports.createOrder = async (req, res) => {
 					},
 				},
 			)
-			console.log(newOrder)
-			res.json(newOrder)
+
+			res
+				.status(httpStatusCode.SUCCESS_NO_CONTENT)
+				.json({ newOrder, message: successStatus.UPDATED_RESOURCE.message });
 		})
 
 	} catch (error) {
-		console.log(error)
+		res
+			.status(httpStatusCode.BAD_REQUEST)
+			.json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
 }
 
