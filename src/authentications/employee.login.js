@@ -24,6 +24,8 @@ exports.login = async (req, res) => {
 	// encontrar customer para entrar no try catch
 	const employee = await EmployeeModel.findOne({ employee_email });
 
+	//tratar erro do email digitado sendo diferente do email existente
+
 	try {
 		if (employee) {
 			const checkPassword = await Encript.ComparePassword(password, employee.password);
