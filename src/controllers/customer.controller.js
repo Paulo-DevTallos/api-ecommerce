@@ -14,11 +14,7 @@ exports.createCustomer = async (req, res) => {
 	const isCustomer = await CustomerModel.findOne({ email: data.email });
 
 	try {
-		if (isCustomer) {
-			res
-				.status(httpStatusCode.CONFLICT)
-				.json({ message: throwNewError.EXISTANT_REGISTER.message });
-		} else {
+		if (!isCustomer) {
 			const hashingPass = await Encript.CriptoPassword(data.password);
 			const customer = await CustomerModel.create({
 				...data,
@@ -28,6 +24,10 @@ exports.createCustomer = async (req, res) => {
 			res
 				.status(httpStatusCode.CREATED)
 				.json({ customer, message: successStatus.CREATED.message });
+		} else {
+			res
+				.status(httpStatusCode.CONFLICT)
+				.json({ message: throwNewError.EXISTANT_REGISTER.message });
 		}
 	} catch (error) {
 		res
