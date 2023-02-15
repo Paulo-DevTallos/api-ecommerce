@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js",
+    "dev": "nodemon ./bin/server.js",
+    "start": "node ./bin/server.js",
     "test": "jest --coverage"
   },
   "keywords": [],
