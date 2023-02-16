@@ -17,7 +17,7 @@ function onError(error) {
 	if (error.syscall !== "listen") {
 		throw new Error(
 			error,
-			httpStatusCode.SEVERAL_INTERAL_SERVER_ERROR,
+			httpStatusCode.INTERNAL_SERVER_ERROR,
 			throwNewError.SEVERAL_INTERAL_SERVER_ERROR.message
 		);
 	}
