@@ -60,19 +60,28 @@ exports.getProducts = async (req, res) => {
 	}
 };
 
-exports.ordenateProducts = async (req, res) => {
-	const { data } = req.query;
+exports.ordenateProductsByPrice = async (req, res) => {
+	const { price } = req.query;
 
-	const ordenateProducts = await ProductModel.find().sort({
-		$or: [
-			{
-				brand: { $in: data },
-			},
-		],
-	});
+	try {
+		const ordenateProducts = await ProductModel.find().sort({ price })
 
-	console.log(ordenateProducts);
-	res.json(ordenateProducts);
+		res.status(httpStatusCode.OK).json(ordenateProducts)
+	} catch (error) {
+		res.status(httpStatusCode.BAD_REQUEST).json({ error, message: throwNewError.REQUEST_FAILED.message })
+	}
+};
+
+exports.ordenateProductsByCreation = async (req, res) => {
+	const { created } = req.query;
+
+	try {
+		const ordenateProducts = await ProductModel.find().sort({ created_at: created })
+
+		res.status(httpStatusCode.OK).json(ordenateProducts)
+	} catch (error) {
+		res.status(httpStatusCode.BAD_REQUEST).json({ error, message: throwNewError.REQUEST_FAILED.message })
+	}
 };
 
 exports.getPaginatedProducts = async (req, res) => {
