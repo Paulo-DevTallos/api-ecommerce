@@ -49,6 +49,17 @@ app.use((req, res, next) => {
 });
 
 //routes
+//require('./router')(app)
+/*
+app.use((req, res, next) => {
+	const err = new Error("Not Found")
+	res.send('Dominio não encontradp')
+
+	err.status(404)
+	next(err)
+})
+*/
+
 app.use(categoriesRouter);
 app.use(customerRouter);
 app.use(employeeRouter);
