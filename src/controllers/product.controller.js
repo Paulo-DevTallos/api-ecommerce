@@ -9,6 +9,13 @@ const StoreModel = require("../models/store.model");
 // const models = require("../models");
 // const { ProductModel, StoreModel } = models;
 
+/**
+ * criando dados do produto
+ *
+ * @param {*} req
+ * @param {*} res
+ * @return {Object} data objeto com os dados para criar um produto
+ */
 exports.createProduct = async (req, res) => {
 	const { ...data } = req.body;
 
@@ -53,29 +60,23 @@ exports.getProducts = async (req, res) => {
 	}
 };
 
+exports.ordenateProducts = async (req, res) => {
+	const { data } = req.query;
+
+	const ordenateProducts = await ProductModel.find().sort({
+		$or: [
+			{
+				brand: { $in: data },
+			},
+		],
+	});
+
+	console.log(ordenateProducts);
+	res.json(ordenateProducts);
+};
+
 exports.getPaginatedProducts = async (req, res) => {
 	const { page, limit } = req.query;
-
-	/*const ordenade = [sort = 1]
-	const unordenade = [sort = -1]*/
-	/*$or: [
-					{
-						created_at: -1
-					},
-					{
-						created_at: 1,
-					},
-					{
-						model: 1
-					},
-					{
-						price: 1
-					},
-					{
-						price: -1
-					}
-				]
-			})*/
 
 	try {
 		const products = await ProductModel.find()
