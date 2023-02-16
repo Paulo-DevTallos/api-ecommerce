@@ -6,6 +6,16 @@ const {
 const ProductModel = require("../models/product.model");
 const StoreModel = require("../models/store.model");
 
+// const models = require("../models");
+// const { ProductModel, StoreModel } = models;
+
+/**
+ * criando dados do produto
+ *
+ * @param {*} req
+ * @param {*} res
+ * @return {Object} data objeto com os dados para criar um produto
+ */
 exports.createProduct = async (req, res) => {
 	const { ...data } = req.body;
 
@@ -50,29 +60,23 @@ exports.getProducts = async (req, res) => {
 	}
 };
 
+exports.ordenateProducts = async (req, res) => {
+	const { data } = req.query;
+
+	const ordenateProducts = await ProductModel.find().sort({
+		$or: [
+			{
+				brand: { $in: data },
+			},
+		],
+	});
+
+	console.log(ordenateProducts);
+	res.json(ordenateProducts);
+};
+
 exports.getPaginatedProducts = async (req, res) => {
 	const { page, limit } = req.query;
-
-	/*const ordenade = [sort = 1]
-	const unordenade = [sort = -1]*/
-	/*$or: [
-					{
-						created_at: -1
-					},
-					{
-						created_at: 1,
-					},
-					{
-						model: 1
-					},
-					{
-						price: 1
-					},
-					{
-						price: -1
-					}
-				]
-			})*/
 
 	try {
 		const products = await ProductModel.find()
@@ -81,22 +85,20 @@ exports.getPaginatedProducts = async (req, res) => {
 			.skip((page - 1) * limit)
 			.sort({ created_at: 1 });
 
-		const count = await ProductModel.countDocuments()
+		const count = await ProductModel.countDocuments();
 
-		res
-			.status(httpStatusCode.OK)
-			.json({
-				products,
-				count,
-				totalPages: Math.ceil(count / limit),
-				currentPage: page,
-			});
+		res.status(httpStatusCode.OK).json({
+			products,
+			count,
+			totalPages: Math.ceil(count / limit),
+			currentPage: page,
+		});
 	} catch (error) {
 		res
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
-}
+};
 
 exports.getProductByQueryParam = async (req, res) => {
 	const { code, name, brand } = req.query;
@@ -105,25 +107,24 @@ exports.getProductByQueryParam = async (req, res) => {
 		const productQuery = await ProductModel.find({
 			$or: [
 				{
-					'id_product': { $in: code }
+					id_product: { $in: code },
 				},
 				{
-					'model': { $in: name }
+					model: { $in: name },
 				},
 				{
-					'brand': { $in: brand }
-				}
-			]
+					brand: { $in: brand },
+				},
+			],
 		});
 
 		res.status(httpStatusCode.OK).json(productQuery);
-
 	} catch (error) {
 		res
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
-}
+};
 
 exports.filterProductsByStore = async (req, res) => {
 	const { id } = req.params;
@@ -131,17 +132,15 @@ exports.filterProductsByStore = async (req, res) => {
 	try {
 		const filterStore = await StoreModel.findOne({ _id: id });
 
-		const productList = await ProductModel.find(
-			{ sales_at: filterStore },
-		);
+		const productList = await ProductModel.find({ sales_at: filterStore });
 
-		res.status(httpStatusCode.OK).json(productList)
+		res.status(httpStatusCode.OK).json(productList);
 	} catch (error) {
 		res
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
-}
+};
 
 exports.updateProduct = async (req, res) => {
 	const { id } = req.params;
@@ -172,7 +171,7 @@ exports.updateProduct = async (req, res) => {
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
-}
+};
 
 /**
  *
@@ -200,7 +199,7 @@ exports.updateProduct = async (req, res) => {
 // })
 
 exports.removeProduct = async (req, res) => {
-	const { id} = req.params;
+	const { id } = req.params;
 
 	const isProduct = await ProductModel.findById({ _id: id });
 	try {
@@ -216,4 +215,4 @@ exports.removeProduct = async (req, res) => {
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ error, message: throwNewError.REQUEST_FAILED.message });
 	}
-}
+};
