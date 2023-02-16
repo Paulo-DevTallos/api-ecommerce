@@ -1,7 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
-const db = require("./db");
+const config = require("../config/config");
+const bodyParser = require('body-parser');
+const { httpStatusCode } = require("../config/error-tratament");
+require("../src/models");
+
 const app = express();
 //router imports
 const categoriesRouter = require('./routes/categories');
@@ -12,13 +16,11 @@ const productRouter = require("./routes/products");
 const sessionRouter = require("./routes/session");
 const storeRouter = require("./routes/store");
 
-//database connection
-db.dbConnection();
-
 //watching logs requests
 app.use(logger("dev"));
 
-app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.urlencoded(config.bodyParserUrlEncoded));
 app.use(express.json());
 
 //setting cors
@@ -26,9 +28,24 @@ app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "*");
 	res.setHeader("Access-Control-Allow-Headers", "*");
-	res.setHeader("Content-Type", "multipart/form-data");
+	res.setHeader(
+		"Access-Control-Allow-Headers",
+		"Origin",
+		"X-Requested-With",
+		"Content-Type",
+		"Accept",
+		"Content-Length",
+		"Authorization",
+		"Accept-Encoding",
+		"Access_Token",
+		"multipart/form-data"
+	);
 
-	next();
+	if (req.method === 'OPTIONS') {
+		res.status(httpStatusCode.SUCCESS_NO_CONTENT).json()
+	} else {
+		next();
+	}
 });
 
 //routes
