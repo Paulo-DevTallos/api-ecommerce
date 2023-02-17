@@ -3,6 +3,7 @@ const express = require("express");
 const logger = require("morgan");
 const config = require("../config/config");
 const bodyParser = require('body-parser');
+const path = require('path');
 const { httpStatusCode, throwNewError } = require("../config/error-tratament");
 require("../src/models");
 
@@ -19,6 +20,7 @@ const storeRouter = require("./routes/store");
 //watching logs requests
 app.use(logger("dev"));
 
+app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
 app.use(bodyParser.urlencoded(config.bodyParserUrlEncoded));
 app.use(express.json());
 
