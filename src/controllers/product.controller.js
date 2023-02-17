@@ -14,11 +14,12 @@ const StoreModel = require("../models/store.model");
  *
  * @param {*} req
  * @param {*} res
- * @return {Object} data objeto com os dados para criar um produto
+ *
  */
 exports.createProduct = async (req, res) => {
 	const { ...data } = req.body;
 
+	console.log(data);
 	const isProduct = await ProductModel.findOne({ id_product: data.id_product });
 
 	try {

@@ -3,7 +3,7 @@ const express = require("express");
 const logger = require("morgan");
 const config = require("../config/config");
 const bodyParser = require('body-parser');
-const { httpStatusCode } = require("../config/error-tratament");
+const { httpStatusCode, throwNewError } = require("../config/error-tratament");
 require("../src/models");
 
 const app = express();
@@ -19,7 +19,6 @@ const storeRouter = require("./routes/store");
 //watching logs requests
 app.use(logger("dev"));
 
-
 app.use(bodyParser.urlencoded(config.bodyParserUrlEncoded));
 app.use(express.json());
 
@@ -31,7 +30,6 @@ app.use((req, res, next) => {
 	res.setHeader(
 		"Access-Control-Allow-Headers",
 		"Origin",
-		"X-Requested-With",
 		"Content-Type",
 		"Accept",
 		"Content-Length",
@@ -48,18 +46,6 @@ app.use((req, res, next) => {
 	}
 });
 
-//routes
-//require('./router')(app)
-/*
-app.use((req, res, next) => {
-	const err = new Error("Not Found")
-	res.send('Dominio não encontradp')
-
-	err.status(404)
-	next(err)
-})
-*/
-
 app.use(categoriesRouter);
 app.use(customerRouter);
 app.use(employeeRouter);
@@ -67,5 +53,14 @@ app.use(ordersRouter);
 app.use(productRouter);
 app.use(sessionRouter);
 app.use(storeRouter);
+
+// not found
+app.use((req, res, next) => {
+	const err = new Error(throwNewError.ROUTE_NOT_FOUND)
+	res.send(httpStatusCode.NOT_FOUND)
+
+	err.status(httpStatusCode.NOT_FOUND)
+	next(err)
+})
 
 module.exports = app;
