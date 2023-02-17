@@ -61,39 +61,23 @@ exports.getProducts = async (req, res) => {
 	}
 };
 
-exports.ordenateProductsByPrice = async (req, res) => {
-	const { price } = req.query;
-
-	try {
-		const ordenateProducts = await ProductModel.find().sort({ price })
-
-		res.status(httpStatusCode.OK).json(ordenateProducts)
-	} catch (error) {
-		res.status(httpStatusCode.BAD_REQUEST).json({ error, message: throwNewError.REQUEST_FAILED.message })
-	}
-};
-
-exports.ordenateProductsByCreation = async (req, res) => {
-	const { created } = req.query;
-
-	try {
-		const ordenateProducts = await ProductModel.find().sort({ created_at: created })
-
-		res.status(httpStatusCode.OK).json(ordenateProducts)
-	} catch (error) {
-		res.status(httpStatusCode.BAD_REQUEST).json({ error, message: throwNewError.REQUEST_FAILED.message })
-	}
-};
-
 exports.getPaginatedProducts = async (req, res) => {
-	const { page, limit } = req.query;
+	const { page, limit, sort } = req.query
+	let sortProp = sort || 'id_product';
+
+	sort ? (sortProp = sort.split(',')) : (sortProp = [sortProp])
+
+	let sortBy = {}
+
+	if (sortProp[1]) sortBy[sortProp[0]] = sortProp[1]
+	else sortBy[sortProp[0]] = 'asc'
 
 	try {
 		const products = await ProductModel.find()
 			.hint("id_product_1")
 			.limit(limit * 1)
 			.skip((page - 1) * limit)
-			.sort({ created_at: 1 });
+			.sort(sortBy);
 
 		const count = await ProductModel.countDocuments();
 
