@@ -65,12 +65,23 @@ exports.getPaginatedProducts = async (req, res) => {
 	const { page, limit, sort } = req.query
 	let sortProp = sort || 'id_product';
 
+	/**
+	 * if queryParams exists sortProp is converted into an Array
+	 * if positions 1 = sortProp[1]'desc' arg exists
+	 * default statement 'asc'
+	 *
+	 * possible queries sort:
+	 * created_at / price / model - A to Z (revert)
+	 *
+	 **/
 	sort ? (sortProp = sort.split(',')) : (sortProp = [sortProp])
 
 	let sortBy = {}
 
-	if (sortProp[1]) sortBy[sortProp[0]] = sortProp[1]
-	else sortBy[sortProp[0]] = 'asc'
+	if (sortProp[1]) {
+		sortBy[sortProp[0]] = sortProp[1];
+	}
+	else sortBy[sortProp[0]] = 'asc';
 
 	try {
 		const products = await ProductModel.find()
