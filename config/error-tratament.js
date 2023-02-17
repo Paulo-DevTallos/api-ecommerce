@@ -22,6 +22,10 @@ module.exports = {
 			code: 404,
 			message: "Nenhum registro encontrado!",
 		},
+		ROUTE_NOT_FOUND: {
+			code: 404,
+			message: "Rota não encontrada",
+		},
 		DUPLICATED_UNIQUE_KEY: {
 			code: 409,
 			message: "Conflito de chave única duplicada",
