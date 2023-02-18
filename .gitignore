@@ -1,3 +1,6 @@
 node_modules
 .env
 cardinality
+
+#folders
+uploads
