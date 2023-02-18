@@ -20,7 +20,7 @@ const storeRouter = require("./routes/store");
 //watching logs requests
 app.use(logger("dev"));
 
-app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
+app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
 app.use(bodyParser.urlencoded(config.bodyParserUrlEncoded));
 app.use(express.json());
 
