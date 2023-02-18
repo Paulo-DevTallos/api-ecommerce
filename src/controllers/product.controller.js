@@ -17,15 +17,19 @@ const StoreModel = require("../models/store.model");
  *
  */
 exports.createProduct = async (req, res) => {
+	const imagePath = req.file?.filename;
 	const { ...data } = req.body;
 
-	console.log(data);
+	console.log(imagePath)
+
 	const isProduct = await ProductModel.findOne({ id_product: data.id_product });
 
 	try {
 		if (!isProduct) {
 			const product = await ProductModel.create({
 				...data,
+				imagePath,
+				sales_at: data.sales_at ? [data.sales_at] : []
 			});
 
 			res
