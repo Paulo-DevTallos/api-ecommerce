@@ -6,6 +6,9 @@ const schema = new mongoose.Schema({
 		required: true,
 		index: true,
 	},
+	imagePath: {
+		type: String,
+	},
 	model: {
 		type: String,
 		required: true,
