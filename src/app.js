@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 	}
 });
 
-
+// routers declaration
 app.use(categoriesRouter);
 app.use(customerRouter);
 app.use(employeeRouter);
