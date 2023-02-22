@@ -29,17 +29,6 @@ app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "*");
 	res.setHeader("Access-Control-Allow-Headers", "*");
-	res.setHeader(
-		"Access-Control-Allow-Headers",
-		"Origin",
-		"Content-Type",
-		"Accept",
-		"Content-Length",
-		"Authorization",
-		"Accept-Encoding",
-		"Access_Token",
-		"multipart/form-data"
-	);
 
 	if (req.method === 'OPTIONS') {
 		res.status(httpStatusCode.SUCCESS_NO_CONTENT).json()
@@ -47,6 +36,7 @@ app.use((req, res, next) => {
 		next();
 	}
 });
+
 
 app.use(categoriesRouter);
 app.use(customerRouter);
@@ -56,12 +46,12 @@ app.use(productRouter);
 app.use(sessionRouter);
 app.use(storeRouter);
 
+
 // not found
 app.use((req, res, next) => {
 	const err = new Error(throwNewError.ROUTE_NOT_FOUND)
-	res.send(httpStatusCode.NOT_FOUND)
+	res.sendStatus(httpStatusCode.NOT_FOUND)
 
-	err.status(httpStatusCode.NOT_FOUND)
 	next(err)
 })
 
