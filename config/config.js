@@ -5,7 +5,7 @@ module.exports = {
 		extended: true
 	},
 	development: {
-		host_connection: process.env.DB_URL_STRING_CONNECTION,
+		host_dev_connection: process.env.DB_URL_STRING_CONNECTION,
 	},
 	production: {
 		host_prod_connection: '',
