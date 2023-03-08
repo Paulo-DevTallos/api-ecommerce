@@ -5,7 +5,7 @@ const config = require("../config/config");
 const bodyParser = require('body-parser');
 const path = require('path');
 const { httpStatusCode, throwNewError } = require("../config/error-tratament");
-require("../src/models");
+const db = require('./db');
 
 const app = express();
 //router imports
@@ -19,6 +19,8 @@ const storeRouter = require("./routes/store");
 
 //watching logs requests
 app.use(logger("dev"));
+
+db.dbConnection();
 
 app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
 app.use(bodyParser.urlencoded(config.bodyParserUrlEncoded));

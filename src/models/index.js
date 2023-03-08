@@ -1,4 +1,4 @@
-const db = require('../db');
+/*const db = require('../db');
 const fs = require("fs");
 const path = require("path");
 const basename = path.basename(__filename);
@@ -16,9 +16,9 @@ fs.readdirSync(__dirname)
 	})
 	.forEach((file) => {
 		collectionsDir = require(path.join(__dirname, file))
-		/*const model = require(path.join(__dirname, file));
+		const model = require(path.join(__dirname, file));
 		db[model.name] = model;
-		console.log(file)*/
+		console.log(file)
 	});
 
-module.exports = db, collectionsDir;
+module.exports = db, collectionsDir;*/
