@@ -13,6 +13,5 @@ router.get("/customer/search", getCustomerByQueryParam);
 router.patch('/customer/:customer_id/addcart/:product_id', addProductToCart);
 router.get("/customer/:id?", getCustomers);
 router.delete("/customer/:id", removeCustomer);
-router.post('/customer/auth', login);
 
 module.exports = router;
