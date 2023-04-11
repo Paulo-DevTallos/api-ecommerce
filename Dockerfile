@@ -4,4 +4,4 @@ WORKDIR /home/app/api-ecommerce
 
 COPY ./package.json .
 
-## RUN npm install
+RUN npm install
