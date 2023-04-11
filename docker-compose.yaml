@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+	api:
+		build: .
+		entrypoint: sh ./.docker/entrypoint.sh
+		container_name: api-ecommerce
+		ports:
+			- 3030:3030
+		volumes:
+			- ./:/home/app/api-ecommence
+		tty: true
