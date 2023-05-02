@@ -29,7 +29,7 @@ exports.createProduct = async (req, res) => {
 			const product = await ProductModel.create({
 				...data,
 				imagePath,
-				sales_at: data.sales_at ? [data.sales_at] : []
+				/*sales_at: data.sales_at ? [data.sales_at] : []*/
 			});
 
 			res
@@ -65,9 +65,19 @@ exports.getProducts = async (req, res) => {
 	}
 };
 
+/**
+ *
+ * @param req
+ * @param res
+ *
+ */
 exports.getPaginatedProducts = async (req, res) => {
-	const { page, limit, sort } = req.query
+	let { limit, page, sort } = req.query;
 	let sortProp = sort || 'id_product';
+
+	// convertendo query de paginação
+	limit = Number(limit);
+	page = Number(page);
 
 	/**
 	 * if queryParams exists sortProp is converted into an Array
@@ -88,21 +98,40 @@ exports.getPaginatedProducts = async (req, res) => {
 	else sortBy[sortProp[0]] = 'asc';
 
 	try {
+		if (!limit) limit = 5;
+		if (!page) page = 0;
+
 		const products = await ProductModel.find()
 			.hint("id_product_1")
-			.limit(limit * 1)
-			.skip((page - 1) * limit)
-			.sort(sortBy);
+			.limit(limit)
+			.skip(page)
+			.sort(sortBy)
+			.populate("category", "category_name");
 
-		const count = await ProductModel.countDocuments();
+		const countProducts = await ProductModel.countDocuments();
+
+		// criando urls de paginação
+		const currentPath = req.route.path;
+		const currentUrl = currentPath + `?limit=${limit}&page=${page}`;
+
+		const nextItem = page + limit;
+		const nextUrl = nextItem < countProducts ? `${currentPath}?limit=${limit}&page=${nextItem}` : null;
+
+		const previous = page - limit < 0 ? null : page - limit;
+		const previousUrl = previous != null ? `${currentPath}?limit=${limit}&page=${previous}` : null;
 
 		res.status(httpStatusCode.OK).json({
-			products,
-			count,
-			totalPages: Math.ceil(count / limit),
+			nextUrl,
+			currentUrl,
+			previousUrl,
+			limit,
+			page,
 			currentPage: page,
+			countProducts,
+			products,
 		});
 	} catch (error) {
+		console.log(error);
 		res
 			.status(httpStatusCode.BAD_REQUEST)
 			.json({ error, message: throwNewError.REQUEST_FAILED.message });
