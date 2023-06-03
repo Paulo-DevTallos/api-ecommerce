@@ -1,7 +1,8 @@
 const router = require('./index');
 const {
 	createEmployee,
-	updateEmployee
+	updateEmployee,
+	getAllEmployees
 } = require('../controllers/employee.controller');
 const { login } = require('../authentications/employee.login');
 
@@ -9,6 +10,8 @@ const { login } = require('../authentications/employee.login');
 router.post('/employee/create', createEmployee);
 //login
 router.post('/employee/auth', login);
+//listar todos os funcionario ou por id
+router.get('/employees/:id?', getAllEmployees);
 //atualizar um funcionário
 router.patch('/employee/:id', updateEmployee);
 
