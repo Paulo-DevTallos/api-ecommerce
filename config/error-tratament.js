@@ -77,7 +77,7 @@ module.exports = {
 			message: "Dados incorretos",
 		},
 		//server error
-		SEVERAL_INTERAL_SERVER_ERROR: {
+		INTERNAL_SERVER_ERROR: {
 			code: 500,
 			message: "Critical server error",
 		},
