@@ -8,7 +8,9 @@ exports.findEmployeeService = (identifier) => {
 	if (isValidId) {
 		return EmployeeModel.findById(identifier);
 	} else if (!identifier) {
-		return EmployeeModel.find();
+		//verifica se o argumento recebido é um id valido ou não
+		const param = isValidId ? isValidId : null;
+		return EmployeeModel.find(param);
 	}
 	else {
 		return EmployeeModel.findOne(identifier);
