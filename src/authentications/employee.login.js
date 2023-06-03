@@ -13,7 +13,7 @@ exports.login = async (req, res) => {
 		})
 	}
 
-	const employee = await EmployeeService.findOneEmployeeService({ employee_email });
+	const employee = await EmployeeService.findEmployeeService({ employee_email });
 
 	try {
 		if (employee) {
