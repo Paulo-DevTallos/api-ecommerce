@@ -51,6 +51,18 @@ exports.createEmployee = async (req, res) => {
 	}
 }
 
+exports.getAllEmployees = async (req, res) => {
+	const { id } = req.params;
+
+	const employeeId = id ? { _id: id } : null;
+
+	const employees = await EmployeeService.findEmployeeService(employeeId)
+		.sort({ registration: 1 });
+
+	res.status(httpStatusCode.OK).json(employees);
+
+}
+
 exports.updateEmployee = async (req, res) => {
 	const { id } = req.params;
 	const { ...data } = req.body;
