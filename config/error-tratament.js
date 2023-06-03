@@ -2,7 +2,7 @@ module.exports = {
 	httpStatusCode: {
 		OK: 200,
 		CREATED: 201,
-		SUCCESS_NO_CONTENT: 204,
+		NO_CONTENT: 204,
 		BAD_REQUEST: 400,
 		UNAUTHORIZED: 401,
 		FORBIDEN: 403,
@@ -13,6 +13,10 @@ module.exports = {
 		BAD_GATEWAY: 502,
 	},
 	throwNewError: {
+		//resources verification
+		IVALID_ID: {
+			message: "Id invalido",
+		},
 		//requests
 		REQUEST_FAILED: {
 			code: 400,
@@ -46,6 +50,9 @@ module.exports = {
 		ANY_ENTITY_EMPTY: {
 			code: 401,
 			message: "Preencha os campos corretamente",
+		},
+		EMPTY_FIELDS_FOR_UPDATE: {
+			message: "Preencha os campos para atualização",
 		},
 		EMPTY_FIELD_EMAIL: {
 			code: 400,
