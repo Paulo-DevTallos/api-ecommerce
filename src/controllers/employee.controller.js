@@ -17,7 +17,9 @@ exports.createEmployee = async (req, res) => {
 		})
 	}
 
-	const isEmployee = await EmployeeModel.findOne({ employee_email: data.employee_email });
+	const isEmployee = await EmployeeService.findOneEmployeeService({
+		employee_email: data.employee_email
+	});
 
 	try {
 
@@ -46,4 +48,11 @@ exports.createEmployee = async (req, res) => {
 			error, message: throwNewError.REQUEST_FAILED.message
 		});
 	}
+}
+
+exports.updateEmployee = (req, res) => {
+	const { id } = req.params;
+	const { ...data } = req.body;
+
+	console.log('teste')
 }
