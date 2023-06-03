@@ -22,6 +22,7 @@ app.use(logger("dev"));
 
 db.dbConnection();
 
+//set api config
 app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
 app.use(bodyParser.urlencoded(config.bodyParserUrlEncoded));
 app.use(express.json());
@@ -47,7 +48,6 @@ app.use(ordersRouter);
 app.use(productRouter);
 app.use(sessionRouter);
 app.use(storeRouter);
-
 
 // not found
 app.use((req, res, next) => {

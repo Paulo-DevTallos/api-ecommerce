@@ -2,7 +2,7 @@ FROM node:16-alpine
 
 WORKDIR /home/app/api-ecommerce
 
-COPY package.json .
+COPY package*.json .
 
 RUN npm install
 
