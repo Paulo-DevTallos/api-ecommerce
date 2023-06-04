@@ -88,12 +88,11 @@ exports.updateEmployee = async (req, res) => {
 	}
 
 	const isEmployee = await EmployeeService.findEmployeeService({ _id: id })
-
+	//TODO - criar checkagem que verifique se o campo a ser atualizado já é igual ao campo atual
 	try {
 		if (isEmployee) {
 			EmployeeService.updateEmployeeService(isEmployee._id, data)
 				.then(() => {
-
 					res.status(httpStatusCode.NO_CONTENT).json({
 						message: successStatus.UPDATED_RESOURCE.message
 					});
@@ -109,3 +108,48 @@ exports.updateEmployee = async (req, res) => {
 		});
 	}
 }
+
+exports.removeEmployee = async (req, res) => {
+	/**
+	 * Atenção!
+	 *
+	 * o controlador de remoção de usuário trabalha com um parametro opcional
+	 * caso ele receba um ObjectId válido irá remover o mesmo, caso não receba
+	 * nenhum parametro irá remover toda a base de employees.
+	 *
+	 */
+	const { id } = req.params;
+
+	const employeeId = id ? { _id: id } : null;
+
+	if (employeeId) {
+		if (!mongoose.Types.ObjectId.isValid(id)) {
+			res.status(httpStatusCode.BAD_REQUEST).json({
+				message: throwNewError.IVALID_ID.message
+			})
+		}
+	}
+
+	const isEmployee = await EmployeeService.findEmployeeService(employeeId);
+
+	try {
+		if (isEmployee) {
+			EmployeeService.deleteEmployeesService(employeeId)
+				.then(() => {
+
+					res.status(httpStatusCode.NO_CONTENT).json({
+						message: successStatus.REMOVED_RESOURCE.message
+					});
+				})
+		} else {
+			res.status(httpStatusCode.NOT_FOUND).json({
+				message: throwNewError.RESOURCE_NOT_FOUND.message
+			});
+		}
+	} catch (error) {
+		res.status(httpStatusCode.BAD_REQUEST).json({
+			error, message: throwNewError.REQUEST_FAILED.message
+		});
+	}
+}
+
