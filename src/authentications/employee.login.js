@@ -69,3 +69,7 @@ exports.login = async (req, res) => {
 		});
 	}
 }
+
+exports.logout = async (req, res) => {
+	console.log('Aqui funcionará a rota de logout')
+}
