@@ -18,7 +18,7 @@ module.exports = {
 			message: "Id invalido",
 		},
 		INVALID_STATUS: {
-			message: "O status informado não existe",
+			message: "Informe corretamente um status",
 		},
 		//requests
 		REQUEST_FAILED: {
