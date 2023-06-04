@@ -16,7 +16,7 @@ exports.login = async (req, res) => {
 	const employee = await EmployeeService.findEmployeeService({ employee_email });
 
 	try {
-		if (employee) {
+		if (employee && employee.status !== 'inactive') {
 			const checkPassword = await Encript.ComparePassword(password, employee.password);
 
 			if (!checkPassword) {
@@ -57,6 +57,10 @@ exports.login = async (req, res) => {
 						token,
 					});
 			}
+		} else {
+			res.status(httpStatusCode.UNAUTHORIZED).json({
+				message: throwNewError.ACCESS_DENIED.message
+			});
 		}
 	} catch (error) {
 		res.status(httpStatusCode.INTERNAL_SERVER_ERROR).json({
