@@ -77,7 +77,7 @@ exports.updateEmployee = async (req, res) => {
 	if (!data.employee_name && !data.employee_email && !data.password) {
 		res.status(httpStatusCode.UNPROCESSABLE_ENTITY).json({
 			message: throwNewError.EMPTY_FIELDS_FOR_UPDATE.message
-		})
+		});
 	}
 
 	//verificar se o id é valido
@@ -102,6 +102,55 @@ exports.updateEmployee = async (req, res) => {
 				message: throwNewError.RESOURCE_NOT_FOUND.message
 			});
 		}
+	} catch (error) {
+		res.status(httpStatusCode.BAD_REQUEST).json({
+			error, message: throwNewError.REQUEST_FAILED.message
+		});
+	}
+}
+
+exports.changeEmployeeStatus = async (req, res) => {
+	const { id } = req.params;
+	const { status } = req.body;
+
+	if (!status) {
+		res.status(httpStatusCode.UNPROCESSABLE_ENTITY).json({
+			message: throwNewError.EMPTY_FIELDS_FOR_UPDATE.message
+		});
+	}
+
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		res.status(httpStatusCode.BAD_REQUEST).json({
+			message: throwNewError.IVALID_ID.message
+		})
+	}
+
+	const isEmployee = await EmployeeService.findEmployeeService({ _id: id })
+
+	const employeeStatus = ['active', 'inactive'];
+
+	const validateStatus = employeeStatus.includes(status);
+
+	try {
+		if (isEmployee && validateStatus) {
+			EmployeeService.updateEmployeeService(isEmployee._id, { status })
+				.then(() => {
+					res.status(httpStatusCode.NO_CONTENT).json({
+						message: successStatus.UPDATED_RESOURCE.message
+					});
+				});
+
+		} else if (!validateStatus) {
+			return res.status(httpStatusCode.NOT_FOUND).json({
+				message: `${throwNewError.INVALID_STATUS.message}: ${employeeStatus}`
+			})
+
+		} else {
+			res.status(httpStatusCode.NOT_FOUND).json({
+				message: throwNewError.RESOURCE_NOT_FOUND.message
+			});
+		}
+
 	} catch (error) {
 		res.status(httpStatusCode.BAD_REQUEST).json({
 			error, message: throwNewError.REQUEST_FAILED.message

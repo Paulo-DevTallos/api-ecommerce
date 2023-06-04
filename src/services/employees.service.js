@@ -32,7 +32,7 @@ exports.updateEmployeeService = async (id, body) => {
 	return await EmployeeModel.findOneAndUpdate(
 		{ _id: id },
 		{
-			$set: body
+			$set: body,
 		},
 		{ new: true }
 	);
