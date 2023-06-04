@@ -4,7 +4,6 @@ const {
 	throwNewError
 } = require('../../config/error-tratament');
 const { Encript } = require('../helpers/cripto');
-const EmployeeModel = require('../models/employee.model');
 const EmployeeService = require('../services/employees.service');
 const globalHelpers = require('../helpers/global');
 const { default: mongoose } = require('mongoose');
@@ -56,11 +55,18 @@ exports.getAllEmployees = async (req, res) => {
 
 	const employeeId = id ? { _id: id } : null;
 
+	if (employeeId) {
+		if (!mongoose.Types.ObjectId.isValid(id)) {
+			res.status(httpStatusCode.BAD_REQUEST).json({
+				message: throwNewError.IVALID_ID.message
+			})
+		}
+	}
+
 	const employees = await EmployeeService.findEmployeeService(employeeId)
 		.sort({ registration: 1 });
 
 	res.status(httpStatusCode.OK).json(employees);
-
 }
 
 exports.updateEmployee = async (req, res) => {
