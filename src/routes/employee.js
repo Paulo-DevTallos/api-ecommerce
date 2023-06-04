@@ -3,7 +3,8 @@ const {
 	createEmployee,
 	updateEmployee,
 	getAllEmployees,
-	removeEmployee
+	removeEmployee,
+	changeEmployeeStatus
 } = require('../controllers/employee.controller');
 const { login } = require('../authentications/employee.login');
 
@@ -15,6 +16,8 @@ router.post('/employee/auth', login);
 router.get('/employees/:id?', getAllEmployees);
 //atualizar um funcionário
 router.patch('/employee/:id', updateEmployee);
+//atualizar status do funcionário
+router.patch('/employee/:id/status', changeEmployeeStatus);
 //remover um usuário
 router.delete('/employee/:id?', removeEmployee)
 
