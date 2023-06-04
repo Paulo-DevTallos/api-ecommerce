@@ -17,6 +17,9 @@ module.exports = {
 		IVALID_ID: {
 			message: "Id invalido",
 		},
+		INVALID_STATUS: {
+			message: "O status informado não existe",
+		},
 		//requests
 		REQUEST_FAILED: {
 			code: 400,
