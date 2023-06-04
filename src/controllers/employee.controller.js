@@ -153,7 +153,6 @@ exports.changeEmployeeStatus = async (req, res) => {
 				error, message: throwNewError.REQUEST_FAILED.message
 			});
 		}
-
 	}
 }
 

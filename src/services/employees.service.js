@@ -9,7 +9,6 @@ const ObjectId = require('mongodb').ObjectId
  */
 
 exports.findEmployeeService = (identifier) => {
-	//validar objectId
 	const isValidId = ObjectId.isValid(identifier);
 	//processa uma categoria de acordo com a busca solicitada
 	if (isValidId) {
