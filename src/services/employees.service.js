@@ -1,10 +1,17 @@
 const EmployeeModel = require('../models/employee.model');
 const ObjectId = require('mongodb').ObjectId
 
-exports.findEmployeeService = (identifier) => {
+/**
+ *
+ * identifier significa que a função pode receber um tipo de dado
+ * de acordo com a query repassada, seja ele req.params, body ou query
+ *
+ */
 
-	const isValidId = ObjectId.isValid(identifier)
-	// processa uma categoria de acordo com a busca solicitada
+exports.findEmployeeService = (identifier) => {
+	//validar objectId
+	const isValidId = ObjectId.isValid(identifier);
+	//processa uma categoria de acordo com a busca solicitada
 	if (isValidId) {
 		return EmployeeModel.findById(identifier);
 	} else if (!identifier) {
@@ -22,11 +29,21 @@ exports.createEmployeeService = async (body) => {
 };
 
 exports.updateEmployeeService = async (id, body) => {
-	return await EmployeeModel.updateOne(
+	return await EmployeeModel.findOneAndUpdate(
 		{ _id: id },
 		{
 			$set: body
 		},
 		{ new: true }
 	);
+};
+
+exports.deleteEmployeesService = async (id) => {
+	const isValidId = ObjectId.isValid(id);
+
+	if (!id) {
+		await EmployeeModel.deleteMany().exec();
+	} else {
+		await EmployeeModel.deleteOne(id).exec();
+	}
 };
