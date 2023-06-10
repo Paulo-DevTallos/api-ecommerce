@@ -8,6 +8,17 @@ const { httpStatusCode, throwNewError } = require("../config/error-tratament");
 const db = require('./db');
 
 const app = express();
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require('socket.io')
+//socket connection
+const io = new Server(server, {
+	cors: {
+		origin: "*",
+		credentials: true,
+	}
+})
+
 //router imports
 const categoriesRouter = require('./routes/categories');
 const customerRouter = require("./routes/customers");
@@ -20,7 +31,13 @@ const storeRouter = require("./routes/store");
 //watching logs requests
 app.use(logger("dev"));
 
+//database reference
 db.dbConnection();
+
+//socket instance:
+io.on('connection', (socket) => {
+	console.log('a user connected');
+})
 
 //set api config
 app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
@@ -57,4 +74,4 @@ app.use((req, res, next) => {
 	next(err)
 })
 
-module.exports = app;
+module.exports = server;
