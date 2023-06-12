@@ -4,6 +4,7 @@ const logger = require("morgan");
 const config = require("../config/config");
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 const { httpStatusCode, throwNewError } = require("../config/error-tratament");
 const db = require('./db');
 
@@ -45,17 +46,18 @@ app.use(bodyParser.urlencoded(config.bodyParserUrlEncoded));
 app.use(express.json());
 
 //setting cors
-app.use((req, res, next) => {
+app.use(cors());
+/*app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Methods", "*");
 	res.setHeader("Access-Control-Allow-Headers", "*");
 
 	if (req.method === 'OPTIONS') {
-		res.status(httpStatusCode.SUCCESS_NO_CONTENT).json()
+		res.status(httpStatusCode.SUCCESS_NO_CONTENT).json([])
 	} else {
 		next();
 	}
-});
+});*/
 
 // routers declaration
 app.use(categoriesRouter);
